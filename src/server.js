@@ -30,3 +30,6 @@ sequelize
 app.get("/", (req, res) => {
     res.send("Bienvenue sur le projet Kanban 🚀");
 });
+
+const authRoutes = require("./routes/auth");
+app.use("/auth", authRoutes);
