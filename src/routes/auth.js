@@ -32,4 +32,35 @@ router.post("/register", async (req, res) => {
     }
 });
 
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(400).json({ message: "Utilisateur non trouvé" });
+        }
+
+        const isPasswordValid = await user.validatePassword(password);
+        if(!isPasswordValid) {
+            return res.status(401).json({ message: "Mot de passe incorrect" });
+        }
+
+        const token = jwt.sign(
+            { id: user.id, username: user.username },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
+        );
+
+        res.json({
+            message: "Connexion réussie",
+            user: { id: user.id, username: user.username, email: user.email },
+            token,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Erreur serveur"});
+    }
+});
+
 module.exports = router;
