@@ -34,3 +34,6 @@ app.get("/", (req, res) => {
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
+
+const projectRoutes = require("./routes/projects");
+app.use("/projects", projectRoutes);
