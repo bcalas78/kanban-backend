@@ -5,6 +5,7 @@ const cors = require("cors");
 const sequelize = require("./config/database");
 const User = require("./models/User");
 const Project = require("./models/Project");
+const Task = require("./models/Task");
 
 const app = express();
 
@@ -37,3 +38,6 @@ app.use("/auth", authRoutes);
 
 const projectRoutes = require("./routes/projects");
 app.use("/projects", projectRoutes);
+
+const taskRoutes = require("./routes/tasks");
+app.use(taskRoutes);
