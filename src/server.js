@@ -1,7 +1,9 @@
 require("dotenv").config();
 
 const express = require("express");
+const helmet = require("helmet");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 const sequelize = require("./config/database");
 const User = require("./models/User");
 const Project = require("./models/Project");
@@ -10,7 +12,8 @@ const Comment = require("./models/Comment");
 
 const app = express();
 
-app.use(cors());
+app.use(helmet());
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
@@ -33,6 +36,14 @@ sequelize
 app.get("/", (req, res) => {
     res.send("Bienvenue sur le projet Kanban 🚀");
 });
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
