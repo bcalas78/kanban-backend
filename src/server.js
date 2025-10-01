@@ -42,3 +42,6 @@ app.use("/projects", projectRoutes);
 
 const taskRoutes = require("./routes/tasks");
 app.use(taskRoutes);
+
+const commentRoutes = require("./routes/comment");
+app.use(commentRoutes);
