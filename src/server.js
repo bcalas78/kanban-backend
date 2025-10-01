@@ -6,6 +6,7 @@ const sequelize = require("./config/database");
 const User = require("./models/User");
 const Project = require("./models/Project");
 const Task = require("./models/Task");
+const Comment = require("./models/Comment");
 
 const app = express();
 
